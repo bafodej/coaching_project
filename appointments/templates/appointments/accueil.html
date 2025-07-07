@@ -1,0 +1,133 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}Accueil - Coach Marie Dupont{% endblock %}
+
+{% block page_title %}Bienvenue chez votre Coach{% endblock %}
+
+{% block content %}
+<div class="px-4 py-6 sm:px-0">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow-xl p-8 mb-8 text-white">
+        <h2 class="text-4xl font-bold mb-4">Développez votre potentiel</h2>
+        <p class="text-xl mb-6">Accompagnement personnalisé pour atteindre vos objectifs personnels et professionnels</p>
+        <div class="flex gap-4">
+            <a href="#" class="bg-white text-indigo-600 hover:bg-gray-100 font-medium py-3 px-6 rounded-lg transition duration-200">
+                Commencer maintenant
+            </a>
+            <a href="#services" class="border border-white text-white hover:bg-white hover:text-indigo-600 font-medium py-3 px-6 rounded-lg transition duration-200">
+                Découvrir nos services
+            </a>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-indigo-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 ml-3">À propos de Marie</h3>
+            </div>
+            <p class="text-gray-600 leading-relaxed">
+                Coach certifiée avec 10 ans d'expérience, je vous accompagne dans votre développement personnel et professionnel. 
+                Mon approche bienveillante et structurée vous permet d'atteindre vos objectifs en toute confiance.
+            </p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-purple-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 ml-3">Méthode éprouvée</h3>
+            </div>
+            <p class="text-gray-600 leading-relaxed">
+                Une approche structurée et personnalisée, basée sur des outils reconnus du coaching. 
+                Chaque séance est adaptée à vos besoins spécifiques pour un accompagnement optimal.
+            </p>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div id="services" class="mb-12">
+        <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">Mes Services</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-200">
+                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                    </svg>
+                </div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Coaching individuel</h4>
+                <p class="text-gray-600 text-sm">Accompagnement personnalisé pour atteindre vos objectifs</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-200">
+                <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Gestion du stress</h4>
+                <p class="text-gray-600 text-sm">Techniques pour retrouver sérénité et équilibre</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-200">
+                <div class="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Confiance en soi</h4>
+                <p class="text-gray-600 text-sm">Développement de l'estime et de la confiance en soi</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-200">
+                <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">Coaching professionnel</h4>
+                <p class="text-gray-600 text-sm">Évolution de carrière et leadership</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Section -->
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Horaires & Contact</h3>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Horaires d'ouverture</h4>
+                <div class="space-y-2 text-gray-600">
+                    <div class="flex justify-between">
+                        <span>Lundi - Vendredi</span>
+                        <span class="font-medium">9h00 - 18h00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Samedi</span>
+                        <span class="font-medium">9h00 - 12h00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Dimanche</span>
+                        <span class="font-medium text-red-500">Fermé</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Prendre rendez-vous</h4>
+                <p class="text-gray-600 mb-4">Réservez votre séance en ligne facilement et rapidement.</p>
+                <a href="#" class="inline-block bg-indigo-600 text-white hover:bg-indigo-700 font-medium py-3 px-6 rounded-lg transition duration-200">
+                    Réserver maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
