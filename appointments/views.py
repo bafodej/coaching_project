@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
+import datetime
 from .forms import CustomUserCreationForm, PriseRendezVousForm
 from django.contrib.auth.decorators import login_required
 from .models import Seance
