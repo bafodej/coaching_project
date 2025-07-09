@@ -1,0 +1,206 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}Prendre rendez-vous - Coach Mister Django{% endblock %}
+
+{% block page_title %}Prendre un rendez-vous{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Messages -->
+    {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'success' %}bg-green-50 border border-green-200 text-green-800{% elif message.tags == 'error' %}bg-red-50 border border-red-200 text-red-800{% else %}bg-blue-50 border border-blue-200 text-blue-800{% endif %} px-4 py-3 rounded-md mb-4">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Formulaire de prise de RDV -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <div class="flex items-center mb-6">
+                <div class="bg-lime-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-lime-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Nouveau rendez-vous</h2>
+                    <p class="text-sm text-gray-600">Réservez votre séance de coaching</p>
+                </div>
+            </div>
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Date -->
+                <div>
+                    <label for="{{ form.date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.date.label }}
+                    </label>
+                    {{ form.date }}
+                    {% if form.date.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.date.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Heure de début -->
+                <div>
+                    <label for="{{ form.heure_debut.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.heure_debut.label }}
+                    </label>
+                    {{ form.heure_debut }}
+                    {% if form.heure_debut.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.heure_debut.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <p class="mt-1 text-xs text-gray-500">Créneaux disponibles toutes les 10 minutes (ex: 9h00, 9h10, 9h20...)</p>
+                </div>
+
+                <!-- Durée -->
+                <div>
+                    <label for="{{ form.duree.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.duree.label }}
+                    </label>
+                    {{ form.duree }}
+                    {% if form.duree.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.duree.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Objet de la séance -->
+                <div>
+                    <label for="{{ form.objet.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.objet.label }}
+                    </label>
+                    {{ form.objet }}
+                    {% if form.objet.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.objet.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if form.objet.help_text %}
+                        <p class="mt-1 text-xs text-gray-500">{{ form.objet.help_text }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Boutons -->
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-1 bg-lime-600 text-white py-3 px-4 rounded-md hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 font-medium transition duration-200">
+                        Confirmer le rendez-vous
+                    </button>
+                    <a href="{% url 'dashboard' %}" class="flex-1 bg-gray-300 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 font-medium transition duration-200 text-center">
+                        Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Informations et horaires -->
+        <div class="space-y-6">
+            <!-- Horaires disponibles -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="ml-3 text-lg font-medium text-gray-900">Horaires disponibles</h3>
+                </div>
+                <div class="space-y-2 text-sm text-gray-600">
+                    <div class="flex justify-between">
+                        <span class="font-medium">Lundi - Vendredi</span>
+                        <span>9h00 - 18h00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-medium">Samedi</span>
+                        <span>9h00 - 12h00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-medium">Dimanche</span>
+                        <span class="text-red-500">Fermé</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Types de séances -->
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="ml-3 text-lg font-medium text-gray-900">Types de séances</h3>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div class="p-3 bg-gray-50 rounded-md">
+                        <div class="font-medium text-gray-900">Gestion du stress</div>
+                        <div class="text-gray-600">Techniques de relaxation et gestion émotionnelle</div>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-md">
+                        <div class="font-medium text-gray-900">Confiance en soi</div>
+                        <div class="text-gray-600">Développement de l'estime et de la confiance</div>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-md">
+                        <div class="font-medium text-gray-900">Coaching professionnel</div>
+                        <div class="text-gray-600">Évolution de carrière et leadership</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rendez-vous existants (aperçu) -->
+            {% if rendez_vous_existants %}
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-orange-100 p-3 rounded-full">
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="ml-3 text-lg font-medium text-gray-900">Créneaux occupés</h3>
+                </div>
+                <div class="space-y-2 max-h-32 overflow-y-auto">
+                    {% for rdv in rendez_vous_existants|slice:":5" %}
+                    <div class="flex justify-between text-sm text-gray-600 py-1">
+                        <span>{{ rdv.date|date:"d/m/Y" }}</span>
+                        <span>{{ rdv.heure_debut|time:"H:i" }} - {{ rdv.heure_fin|time:"H:i" }}</span>
+                    </div>
+                    {% endfor %}
+                    {% if rendez_vous_existants|length > 5 %}
+                    <div class="text-xs text-gray-500 text-center pt-2">
+                        Et {{ rendez_vous_existants|length|add:"-5" }} autre(s) rendez-vous...
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
