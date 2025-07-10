@@ -1,26 +1,52 @@
 <!DOCTYPE html>
-<html lang="fr" class="h-full bg-gray-50">
+<html lang="fr" class="h-full bg-gray-200">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Coach en Développement Personnel{% endblock %}</title>
+    <title class="h-full bg-gray-150">{% block title %}Coach en Développement Personnel{% endblock %}</title>
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuration Tailwind pour Poppins -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Poppins', 'ui-sans-serif', 'system-ui'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="h-full">
     <div class="min-h-full">
         <!-- Navigation -->
-        <nav class="bg-indigo-600">
+        <nav class="bg-gradient-to-r from-lime-600 to-emerald-600">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 items-center justify-between">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <h1 class="text-white text-xl font-bold">Coach Django</h1>
+                            <h1 class="text-white text-xl font-bold">Coach Mister Django</h1>
                         </div>
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <a href="/" class="text-white hover:bg-indigo-500 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Accueil</a>
-                            <!-- On ajouter les autres liens plus tard -->
+                            <a href="/" class="text-white hover:bg-lime-500 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Accueil</a>
+                            
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'dashboard' %}" class="text-lime-300 hover:bg-lime-500 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Dashboard</a>
+                                <a href="/logout/" class="text-lime-300 hover:bg-lime-500 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Déconnexion</a>
+                            {% else %}
+                                <a href="{% url 'login' %}" class="text-lime-300 hover:bg-lime-500 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Connexion</a>
+                                <a href="{% url 'signup' %}" class="text-lime-300 hover:bg-lime-500 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Inscription</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -43,9 +69,9 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-indigo-600 mt-auto">
+        <footer class="bg-gradient-to-r from-lime-500 to-emerald-600 mt-auto">
             <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-                <p class="text-center text-indigo-300">&copy; 2025 Coach Django - Tous droits réservés</p>
+                <p class="text-center text-lime-300">&copy; 2025 Coach Mister Django - Tous droits réservés</p>
             </div>
         </footer>
     </div>

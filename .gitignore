@@ -1,4 +1,6 @@
 # Python
+*.pyc
+.pyo
 __pycache__/
 *.py[cod]
 *$py.class
@@ -8,6 +10,9 @@ env/
 venv/
 djangoo_venv/
 .venv
+
+# Database
+db.sqlite3
 
 # Django
 *.log
@@ -34,4 +39,4 @@ Thumbs.db
 
 # Secrets
 .env
-*.key
+*.keydb.sqlite3
