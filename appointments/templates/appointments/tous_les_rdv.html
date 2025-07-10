@@ -1,0 +1,191 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}Tous les rendez-vous - Coach Mister Django{% endblock %}
+
+{% block page_title %}Gestion des rendez-vous{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <!-- Navigation de retour -->
+    <div class="mb-6">
+        <a href="{% url 'dashboard' %}" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Retour au dashboard
+        </a>
+    </div>
+
+    <!-- Rendez-vous à venir -->
+    <div class="mb-8">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="bg-lime-600 px-6 py-4">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <h2 class="text-xl font-bold text-white">Rendez-vous à venir</h2>
+                    <span class="ml-3 bg-lime-500 text-white text-sm px-2 py-1 rounded-full">{{ rdv_futurs|length }}</span>
+                </div>
+            </div>
+            
+            <div class="px-6 py-4">
+                {% if rdv_futurs %}
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Heure</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durée</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Objet</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {% for rdv in rdv_futurs %}
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{ rdv.date|date:"l d F Y" }}
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            {{ rdv.date|date:"d/m/Y" }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{ rdv.heure_debut|time:"H:i" }} - {{ rdv.heure_fin|time:"H:i" }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-8 w-8">
+                                                <div class="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center">
+                                                    <span class="text-sm font-medium text-gray-700">
+                                                        {{ rdv.client.username|first|upper }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">{{ rdv.client.username }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            {{ rdv.get_duree_display }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900">{{ rdv.objet }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex space-x-2">
+                                            <a href="{% url 'admin:appointments_seance_change' rdv.id %}" class="text-lime-600 hover:text-lime-900" title="Modifier">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun rendez-vous à venir</h3>
+                        <p class="mt-1 text-sm text-gray-500">Aucune séance n'est programmée pour les prochains jours.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Rendez-vous passés -->
+    {% if rdv_passes %}
+    <div class="mb-8">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="bg-gray-600 px-6 py-4">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h2 class="text-xl font-bold text-white">Séances passées récentes</h2>
+                    <span class="ml-3 bg-gray-500 text-white text-sm px-2 py-1 rounded-full">{{ rdv_passes|length }}</span>
+                </div>
+            </div>
+            
+            <div class="px-6 py-4">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Objet</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for rdv in rdv_passes %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ rdv.date|date:"d/m/Y" }}</div>
+                                    <div class="text-sm text-gray-500">{{ rdv.heure_debut|time:"H:i" }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ rdv.client.username }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900">{{ rdv.objet }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    {% if rdv.notes_coach %}
+                                        <div class="text-sm text-gray-600">{{ rdv.notes_coach|truncatechars:50 }}</div>
+                                    {% else %}
+                                        <span class="text-sm text-gray-400 italic">Aucune note</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="{% url 'admin:appointments_seance_change' rdv.id %}" class="text-lime-600 hover:text-lime-900" title="Ajouter/Modifier notes">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Actions rapides -->
+    <div class="flex justify-end space-x-4">
+        <a href="{% url 'admin:appointments_seance_add' %}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Ajouter un rendez-vous
+        </a>
+        <a href="{% url 'admin:appointments_seance_changelist' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            Admin avancé
+        </a>
+    </div>
+</div>
+{% endblock %}

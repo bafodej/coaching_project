@@ -7,7 +7,7 @@
 {% block content %}
 <div class="px-4 py-6 sm:px-0">
     <!-- Coach Info Card -->
-    <div class="bg-gradient-to-r from-lime-500 to-purple-600 overflow-hidden shadow rounded-lg mb-6">
+    <div class="bg-gradient-to-r from-lime-500 to-emerald-600 overflow-hidden shadow rounded-lg mb-6">
         <div class="px-4 py-5 sm:p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 <div class="mt-3">
-                    <a href="#" class="text-sm font-medium text-lime-600 hover:text-lime-500">
+                    <a href="{% url 'tous_les_rdv' %}" class="text-sm font-medium text-lime-600 hover:text-lime-500">
                         Voir tous les RDV →
                     </a>
                 </div>
@@ -178,7 +178,7 @@
                     </div>
                 </div>
                 <div class="mt-3">
-                    <a href="#" class="text-sm font-medium text-green-600 hover:text-green-500">
+                    <a href="{% url 'gestion_clients' %}" class="text-sm font-medium text-green-600 hover:text-green-500">
                         Voir les clients →
                     </a>
                 </div>
