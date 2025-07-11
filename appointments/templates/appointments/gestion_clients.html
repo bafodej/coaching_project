@@ -1,0 +1,166 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}Gestion des clients - Coach{% endblock %}
+
+{% block page_title %}Gestion des clients{% endblock %}
+
+{% block content %}
+<div class="px-4 py-6 sm:px-0">
+    <!-- Header -->
+    <div class="bg-white shadow rounded-lg mb-6">
+        <div class="px-4 py-5 sm:px-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Gestion des clients</h1>
+                    <p class="mt-1 text-sm text-gray-600">
+                        {{ clients_stats|length }} client{{ clients_stats|length|pluralize }} inscrit{{ clients_stats|length|pluralize }}
+                    </p>
+                </div>
+                <div>
+                    <a href="{% url 'dashboard' %}" 
+                       class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        ← Retour au tableau de bord
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liste des clients -->
+    {% if clients_stats %}
+        <div class="bg-white shadow overflow-hidden sm:rounded-md">
+            <ul class="divide-y divide-gray-200">
+                {% for client_stat in clients_stats %}
+                <li class="px-6 py-4 hover:bg-gray-50">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div class="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <div class="flex items-center">
+                                    <h3 class="text-lg font-medium text-gray-900">
+                                        {% if client_stat.client.first_name and client_stat.client.last_name %}
+                                            {{ client_stat.client.first_name }} {{ client_stat.client.last_name }}
+                                        {% else %}
+                                            {{ client_stat.client.username }}
+                                        {% endif %}
+                                    </h3>
+                                    <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Actif
+                                    </span>
+                                </div>
+                                <div class="mt-1">
+                                    <p class="text-sm text-gray-600">
+                                        <span class="font-medium">Email:</span> {{ client_stat.client.email|default:"Non renseigné" }}
+                                    </p>
+                                    <p class="text-sm text-gray-600">
+                                        <span class="font-medium">Username:</span> @{{ client_stat.client.username }}
+                                    </p>
+                                    <p class="text-sm text-gray-500">
+                                        Inscrit le {{ client_stat.client.date_joined|date:"d/m/Y à H:i" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <!-- Statistiques séances -->
+                            <div class="text-right">
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-center">
+                                        <div class="text-lg font-bold text-gray-900">{{ client_stat.nb_seances }}</div>
+                                        <div class="text-xs text-gray-500">Séance{{ client_stat.nb_seances|pluralize }}</div>
+                                    </div>
+                                    {% if client_stat.derniere_seance %}
+                                        <div class="text-center">
+                                            <div class="text-sm font-medium text-gray-900">{{ client_stat.derniere_seance.date|date:"d/m" }}</div>
+                                            <div class="text-xs text-gray-500">Dernière séance</div>
+                                        </div>
+                                    {% else %}
+                                        <div class="text-center">
+                                            <div class="text-sm font-medium text-orange-600">Aucune</div>
+                                            <div class="text-xs text-gray-500">Séance</div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Actions -->
+                            <div class="flex flex-col space-y-2">
+                                <button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-3 rounded">
+                                    Voir l'historique
+                                </button>
+                                <button class="bg-green-500 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded">
+                                    Planifier RDV
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Informations supplémentaires -->
+                    {% if client_stat.derniere_seance %}
+                    <div class="mt-3 pl-16">
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="text-sm text-gray-700">
+                                <span class="font-medium">Dernière séance:</span> 
+                                {{ client_stat.derniere_seance.date|date:"d/m/Y" }} à {{ client_stat.derniere_seance.heure_debut|time:"H:i" }}
+                            </p>
+                            {% if client_stat.derniere_seance.objet %}
+                                <p class="text-sm text-gray-600 mt-1">
+                                    <span class="font-medium">Sujet:</span> {{ client_stat.derniere_seance.objet }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <!-- Aucun client -->
+        <div class="bg-white shadow rounded-lg">
+            <div class="px-4 py-12 text-center">
+                <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <h3 class="mt-4 text-lg font-medium text-gray-900">Aucun client inscrit</h3>
+                <p class="mt-2 text-sm text-gray-500">
+                    Les clients qui s'inscriront sur votre plateforme apparaîtront ici.
+                </p>
+                <div class="mt-6">
+                    <a href="{% url 'accueil' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Voir la page d'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Actions rapides -->
+    <div class="mt-8 bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Actions rapides</h3>
+            <div class="flex flex-wrap gap-3">
+                <a href="{% url 'tous_les_rdv' %}" 
+                   class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    📅 Voir tous les RDV
+                </a>
+                <a href="{% url 'dashboard' %}" 
+                   class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    🏠 Tableau de bord
+                </a>
+                <a href="{% url 'admin:index' %}" 
+                   class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    ⚙️ Administration
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

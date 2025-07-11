@@ -5,9 +5,11 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from ..models import Seance
 
+
+
 @login_required
 def dashboard_coach(request):
-    """Tableau de bord coach avec statistiques"""
+    """Tableau de bord coach avec statistiques et liste des clients"""
     # Statistiques générales
     nb_clients = User.objects.filter(is_superuser=False).count()
     nb_rdv_aujourd_hui = Seance.objects.filter(
@@ -23,11 +25,17 @@ def dashboard_coach(request):
         date__gte=timezone.now().date()
     ).order_by('date', 'heure_debut')[:5]
     
+    # Liste des clients (les 5 derniers inscrits)
+    derniers_clients = User.objects.filter(
+        is_superuser=False
+    ).order_by('-date_joined')[:5]
+    
     context = {
         'nb_clients': nb_clients,
         'nb_rdv_aujourd_hui': nb_rdv_aujourd_hui,
         'nb_rdv_semaine': nb_rdv_semaine,
-        'prochains_rdv': prochains_rdv
+        'prochains_rdv': prochains_rdv,
+        'derniers_clients': derniers_clients,
     }
     return render(request, 'appointments/dashboard_coach.html', context)
 
