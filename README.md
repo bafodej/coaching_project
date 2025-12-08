@@ -1,4 +1,4 @@
-# 🏋️ Coaching Project - Application de Gestion de Séances
+#  Coaching Project - Application de Gestion de Séances
 
 Application Django pour la gestion de rendez-vous de coaching sportif.
 
@@ -136,7 +136,6 @@ Le projet utilise GitHub Actions pour l'intégration continue :
 ## 👨‍💻 Auteur
 
 **Bafodé** - 
-
 
 ## 📝 Licence
 
