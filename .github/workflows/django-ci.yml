@@ -1,5 +1,7 @@
+# Pipeline CI pour l'application Django
 name: Django CI
 
+# Déclenche le workflow sur push et pull request vers main
 on:
   push:
     branches: [ main ]
@@ -12,19 +14,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Récupère le code depuis le repo
     - name: Checkout du code
       uses: actions/checkout@v4
 
+      # Configure Python 3.9
     - name: Configuration de Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.9'
-
+      # Installe Flake8 pour l'analyse de code
     - name: Installation de Flake8
       run: |
         python -m pip install --upgrade pip
         pip install flake8
-
+      
+      # Vérifie la qualité du code
     - name: Exécution de Flake8
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -33,22 +38,26 @@ jobs:
   test:
     name: Tests Unitaires Django
     runs-on: ubuntu-latest
-    needs: lint
+    needs: lint # Ce job attend que lint soit terminé
 
     steps:
+      # Récupère le code
     - name: Checkout du code
       uses: actions/checkout@v4
 
+      # Configure Python
     - name: Configuration de Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
+        # Installe les dépendances du projet
     - name: Installation des dépendances
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements.txt. ,  
 
+      # Lance les tests Django
     - name: Exécution des tests Django
       run: |
         python manage.py test
