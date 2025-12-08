@@ -1,0 +1,42 @@
+nano .dockerignore
+```
+
+**Copie ce contenu :**
+```
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environnements virtuels
+venv/
+env/
+.venv
+
+# Base de données locale
+db.sqlite3
+*.db
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+
+# Fichiers de config locale
+.env
+*.log
+
+# GitHub Actions
+.github/
+
+# Node (Tailwind)
+node_modules/
