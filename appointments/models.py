@@ -35,20 +35,20 @@ class Seance(models.Model):
     def __str__(self):
         return f"{self.client.username} - {self.date} à {self.heure_debut} ({self.objet})"
     
-@property
-def heure_fin(self):
-    """Calcule l'heure de fin de la séance"""
-    if self.date and self.heure_debut:  #  Vérification ajoutée
-        debut = datetime.datetime.combine(self.date, self.heure_debut)
-        fin = debut + datetime.timedelta(minutes=self.duree)
-        return fin.time()
-    return None
+    @property
+    def heure_fin(self):
+        """Calcule l'heure de fin de la séance"""
+        if self.date and self.heure_debut:  #  Vérification ajoutée
+            debut = datetime.datetime.combine(self.date, self.heure_debut)
+            fin = debut + datetime.timedelta(minutes=self.duree)
+            return fin.time()
+        return None
     
     def clean(self):
-        """Validation des contraintes métier"""
-        if self.date and self.heure_debut:
-            # Empêcher les RDV dans le passé
-            maintenant = timezone.now()
-            seance_datetime = datetime.datetime.combine(self.date, self.heure_debut)
-            if timezone.make_aware(seance_datetime) <= maintenant:
-                raise ValidationError("Impossible de prendre un rendez-vous dans le passé.")
+            """Validation des contraintes métier"""
+            if self.date and self.heure_debut:
+                # Empêcher les RDV dans le passé
+                maintenant = timezone.now()
+                seance_datetime = datetime.datetime.combine(self.date, self.heure_debut)
+                if timezone.make_aware(seance_datetime) <= maintenant:
+                    raise ValidationError("Impossible de prendre un rendez-vous dans le passé.")
