@@ -1,6 +1,9 @@
 # Pipeline CI pour l'application Django
 name: Django CI
 
+env:
+  DOCKER_IMAGE: bvfode04/coaching-app  
+
 # Déclenche le workflow sur push et pull request vers main
 on:
   push:
