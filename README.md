@@ -38,7 +38,7 @@ coaching_project/
 
 ## 🚀 Technologies
 
-- **Backend** : Django 5.0.6
+- **Backend** : Django 
 - **Frontend** : Tailwind CSS (django-tailwind)
 - **Base de données** : SQLite (dev)
 - **Linting** : Flake8
