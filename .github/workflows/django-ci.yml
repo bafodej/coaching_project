@@ -3,6 +3,7 @@ name: Django CI
 
 env:
   DOCKER_IMAGE: bvfode04/coaching-app  
+  AZURE_WEBAPP_NAME: coaching-app  # Ajout du nom de la web app pour le déploiment azure 
 
 # Déclenche le workflow sur push et pull request vers main
 on:
@@ -96,3 +97,50 @@ jobs:
         # Utilise le cache pour accélérer les builds
         cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache
         cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache,mode=max
+
+
+
+        # Partie CD (Continue Déployment)
+  deploy:
+    name: Déploiement sur Azure App Service
+    runs-on: ubuntu-latest
+    needs: build-and-push  # Attend que l'image soit poussée sur Docker Hub
+    
+    steps:
+    # Connexion à Azure avec les credentials
+    - name: Connexion à Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    # Démarrage ou redémarrage de l'App Service
+    - name: Démarrage ou redémarrage de l'App Service
+      uses: azure/cli@v1
+      with:
+        inlineScript: |
+          STATE=$(az webapp show \
+            --name ${{ env.AZURE_WEBAPP_NAME }} \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --query state -o tsv)
+          echo "État actuel : $STATE"
+          if [ "$STATE" = "Running" ]; then
+            echo "App en cours d'exécution, restart..."
+            az webapp restart \
+              --name ${{ env.AZURE_WEBAPP_NAME }} \
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }}
+          else
+            echo "App arrêtée, start..."
+            az webapp start \
+              --name ${{ env.AZURE_WEBAPP_NAME }} \
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }}
+          fi
+    
+    # Vérification du statut final
+    - name: Vérification du statut
+      uses: azure/cli@v1
+      with:
+        inlineScript: |
+          az webapp show \
+            --name ${{ env.AZURE_WEBAPP_NAME }} \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --query state -o tsv
