@@ -125,14 +125,30 @@ Représente une séance de coaching entre un coach et un client.
 
 ## 🔄 CI/CD
 
-Le projet utilise GitHub Actions pour l'intégration continue :
+Le projet utilise GitHub Actions pour un pipeline CI/CD complet et automatisé.
 
-**Pipeline automatique à chaque push/PR :**
-1. ✅ **Linting** : Vérification de la qualité du code avec Flake8
-2. ✅ **Tests** : Exécution de tous les tests unitaires Django
+### Workflow automatique à chaque push sur `main` :
 
-**Workflow** : `.github/workflows/django-ci.yml`
+1. **✅ Linting** : Vérification de la qualité du code avec Flake8
+2. **✅ Tests** : Exécution de tous les tests unitaires Django
+3. **✅ Build & Push** : Construction et publication de l'image Docker sur Docker Hub
+4. **✅ Deploy** : Déploiement automatique sur Azure App Service
 
+### Infrastructure
+
+- **Container Registry** : [Docker Hub - bvfode04/coaching-app](https://hub.docker.com/r/bvfode04/coaching-app)
+- **Cloud Platform** : Azure App Service
+- **Déploiement** : Automatique via GitHub Actions
+
+**Fichier workflow** : `.github/workflows/django-ci.yml`
+
+## 🌐 Déploiement
+
+L'application est automatiquement déployée sur Azure App Service à chaque push sur la branche `main`.
+
+**Tags Docker disponibles :**
+- `latest` : Dernière version stable
+- `<commit-sha>` : Version spécifique par commit
 ## 👨‍💻 Auteur
 
 **Bafodé** - 
