@@ -17,4 +17,5 @@ COPY . .
 EXPOSE 8000
 
 # Commande pour lancer l'application Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Utilise le port défini par azure via $PORT , ou 8000 par défaut 
+CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:${PORT:-8000}"]
