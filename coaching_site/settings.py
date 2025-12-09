@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-*f9j!jug)n^!u7+yyd7e$*azt(h^&0*miy*yvs8!b1i^a02zac
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Ajout de l'URL Azure
+ALLOWED_HOSTS = [
+    'coaching-app-cadufue6f7fjatdv.francecentral-01.azurewebsites.net',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition

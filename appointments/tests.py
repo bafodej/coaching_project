@@ -102,3 +102,5 @@ class SeanceModelTest(TestCase):
             objet="Test durée défaut"
         )
         self.assertEqual(seance.duree, 60)
+
+        
