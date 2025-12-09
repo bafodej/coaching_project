@@ -100,7 +100,7 @@ jobs:
 
 
 
-        # Partie CD (Continue Déployment)
+        #Partie CD (Continue Déployment)
   deploy:
     name: Déploiement sur Azure App Service
     runs-on: ubuntu-latest
